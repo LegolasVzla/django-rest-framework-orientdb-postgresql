@@ -25,6 +25,25 @@ Create your virtualenv (see Troubleshooting section) and install the requirement
 
 	pip install -r requirements.txt
 
+The structure of the **settings.ini** file, is described below:
+
+	[postgresdbConf]
+	DB_ENGINE=django.db.backends.postgresql
+	DB_NAME=dbname
+	DB_USER=user
+	DB_PASS=password
+	DB_HOST=host
+	DB_PORT=port
+
+	[orientdbConf]
+	DB_NAME=dbname
+	DB_USER=user
+	DB_PASS=password
+	DB_HOST=host
+	DB_PORT=host
+
+Fill in with your own PostgreSQL and OrientDB credentials. By default, DB_HOST and DB_PORT in PostgreSQL are localhost/5432 and in OrientDB localhost/2424 (OrientDB Studio is 2480).
+
 Run the migrations (to PostgreSQL):
 
 	python manage.py makemigrations
