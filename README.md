@@ -25,6 +25,10 @@ Create your virtualenv (see Troubleshooting section) and install the requirement
 
 	pip install -r requirements.txt
 
+Create logs folder:
+
+	mkdir logs
+
 The structure of the **settings.ini** file, is described below:
 
 	[postgresdbConf]
