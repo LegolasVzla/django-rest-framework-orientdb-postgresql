@@ -21,25 +21,25 @@ class Company(models.Model):
 
 class OUsers(Node):
 	element_plural = 'ousers'
-	postgresql_id=Integer()
+	postgresql_id=Integer(nullable=False,unique=True)
 	#created_date=DateTime(nullable=False,default=sysdate())
 	#updated_date=DateTime(nullable=False,default=sysdate())
 
 class OCompany(Node):
 	element_plural = 'ocompany'
-	postgresql_id=Integer()
+	postgresql_id=Integer(nullable=False,unique=True)
 	#created_date=DateTime(nullable=False,default=sysdate())
 	#updated_date=DateTime(nullable=False,default=sysdate())
 	
 class OFriends(Relationship):
 	label = 'ofriends'
-	from_postgresql_ouser_id=Integer(nullable=False)
-	to_postgresql_ouser_id=Integer(nullable=False)
+	from_postgresql_ouser_id=Integer(nullable=False,unique=True)
+	to_postgresql_ouser_id=Integer(nullable=False,unique=True)
 
 class OWorksAt(Relationship):
 	label = 'oworksat'
-	from_postgresql_ouser_id=Integer(nullable=False)
-	to_postgresql_ocompany_id=Integer(nullable=False)
+	from_postgresql_ouser_id=Integer(nullable=False,unique=True)
+	to_postgresql_ocompany_id=Integer(nullable=False,unique=True)
 
 graph.create_all(Node.registry)
 graph.create_all(Relationship.registry)
