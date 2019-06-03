@@ -65,6 +65,27 @@ You could see the home page in:
 ## Endpoints Structure
 In a RESTful API, endpoints (URLs) define the structure of the API and how end users access data from our application using the HTTP methods (GET, POST, PUT, DELETE), making all posssible CRUD (create, retrieve, update, delete) operations.
 
+## Execution
+
+1. Main model contains: User, Company, Friends and WorksAt objects. Friends is a relationship between two Users and WorksAt is a relationship between a User and a Company.
+
+So, do you want to generate "friends" or "works at" relationship?. According your choice:
+
+- Generate a User in: http://127.0.0.1:8000/api/user (or two users if you want to make "friends" relationship) with POST method. Then make a GET request to get the User ID.
+- Generate a Company in: http://127.0.0.1:8000/api/company with POST method. Then make a GET request to get Company ID.
+
+Both objects will be generated in postgresql database. Then make a POST request in:
+
+- http://127.0.0.1:8000/api/ofriends (Friend relationship) with the two Users ID generated before
+- http://127.0.0.1:8000/api/oworksat (Worksat relationship) with the User and Company ID generated before
+
+Both objects will be generated in orientdb database. Finally you could make a GET request in:
+
+- http://127.0.0.1:8000/api/ofriends (Friend relationship)
+- http://127.0.0.1:8000/api/oworksat (Worksat relationship)
+
+And you could see your recently relationship generated.
+
 ## Troubleshooting
 
 1. About pyorient:
