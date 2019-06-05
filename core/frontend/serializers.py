@@ -18,6 +18,9 @@ class OUsersSerializer(serializers.Serializer):
 	#created_date = serializers.DateField()
 	#updated_date = serializers.DateField()
 
+	def create(self, data):
+		return OUsersSerializer.objects.create(**data)
+
 class OCompanySerializer(serializers.Serializer):
 	postgresql_id = serializers.IntegerField()
 	#created_date = serializers.DateField()
