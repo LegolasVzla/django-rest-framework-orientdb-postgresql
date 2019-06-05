@@ -1,7 +1,7 @@
 from .models import (User,Company,OFriends,OWorksAt)
 from rest_framework import viewsets, permissions
 from .serializers import (UserSerializer,CompanySerializer, 
-	OWorksAtSerializer,OFriendsSerializer,OUsersSerializer)
+	OWorksAtSerializer,OFriendsSerializer)
 from rest_framework import serializers, validators
 from core.settings import (graph)
 from pyorient.ogm.query import Query
