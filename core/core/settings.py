@@ -47,8 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frontend',
-    'rest_framework'    
+    'rest_framework',
+    'rest_framework_swagger'    
 ]
+
+# Swagger: For the full documentation, see
+# https://django-rest-swagger.readthedocs.io/en/latest/#django-rest-swagger
 
 REST_FRAMEWORK = {
     'PAGE_DIZE': 10
