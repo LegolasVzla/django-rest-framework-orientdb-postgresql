@@ -4,6 +4,8 @@ from core.settings import Node,Relationship,graph
 from pyorient.ogm.property import (String, Date, DateTime, Decimal, Double,
 	Integer, Boolean, EmbeddedMap, EmbeddedSet,Link, UUID)
 #from pyorient.ogm.what import sysdate
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your models here.
 class Company(models.Model):

@@ -86,6 +86,14 @@ Both objects will be generated in orientdb database. Finally you could make a GE
 
 And you could see your recently relationship generated.
 
+## Swagger Documentation
+
+	[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool for API documentation. "Swagger UI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption."
+
+	You could access to the Swagger UI documentation in:
+	
+	http://127.0.0.1:8000/swagger/
+
 ## Troubleshooting
 
 1. About pyorient:

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'frontend',
     'rest_framework',
     'rest_framework_swagger'    
@@ -135,6 +136,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom User
+# https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#auth-custom-user
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
