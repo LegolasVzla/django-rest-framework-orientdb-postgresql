@@ -1,5 +1,5 @@
 from .models import (User,Company,OFriends,OWorksAt)
-from rest_framework import viewsets, permissions
+from rest_framework import status, viewsets, permissions
 from .serializers import (UserSerializer,CompanySerializer, 
 	OWorksAtSerializer,OFriendsSerializer)
 from rest_framework import serializers, validators
@@ -17,12 +17,62 @@ class UserViewSet(viewsets.ModelViewSet):
 	]
 	serializer_class = UserSerializer
 
+	def destroy(self, request, *args, **kwargs):
+		print ("destroy")
+
+		'''
+		1. Check: if the ouser doesn't exist, the user isn't in a relationship
+		so, the user will be removed
+		'''
+		if(len(graph.ousers.query(
+			postgresql_id=int(kwargs['pk'])
+			)) == 0):
+			instance = self.get_object()
+			self.perform_destroy(instance)
+
+			return Response(status=status.HTTP_204_NO_CONTENT)
+
+		# 2. If not, the user is in a relationship, so it won't be removed
+		else:
+			print ("Not possible")
+
+			return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+	def perform_destroy(self, instance):
+		print ("perform_destroy")
+		instance.delete()
+
 class CompanyViewSet(viewsets.ModelViewSet):
 	queryset = Company.objects.all()
 	permission_classes = [
 		permissions.AllowAny
 	]
 	serializer_class = CompanySerializer
+
+	def destroy(self, request, *args, **kwargs):
+		print ("destroy")
+
+		'''
+		1. Check: if the ocompany doesn't exist, the company isn't in a relationship
+		so, the company will be removed
+		'''
+		if(len(graph.ousers.query(
+			postgresql_id=int(kwargs['pk'])
+			)) == 0):
+			instance = self.get_object()
+			self.perform_destroy(instance)
+
+			return Response(status=status.HTTP_204_NO_CONTENT)
+
+		# 2. If not, the company is in a relationship, so it won't be removed
+		else:
+			print ("Not possible")
+
+			return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+	def perform_destroy(self, instance):
+		print ("perform_destroy")
+		instance.delete()
 
 '''
 class OUsersViewSet(viewsets.ViewSet):
