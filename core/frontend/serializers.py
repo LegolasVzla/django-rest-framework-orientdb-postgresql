@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Company
-		fields = ('name','email','is_active','is_deleted')
+		fields = ('id','name','email','is_active','is_deleted')
 
 '''
 class OUsersSerializer(serializers.Serializer):

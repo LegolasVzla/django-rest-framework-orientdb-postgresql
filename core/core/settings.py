@@ -102,19 +102,18 @@ DATABASES = {
         'PASSWORD': config.get('postgresdbConf', 'DB_PASS'),
         'HOST': config.get('postgresdbConf', 'DB_HOST'),
         'PORT': config.get('postgresdbConf', 'DB_PORT'),
+    },
+    'orientdb': {
+        'NAME': config.get('orientdbConf', 'DB_NAME'),
+        'USER': config.get('orientdbConf', 'DB_USER'),
+        'PASSWORD': config.get('orientdbConf', 'DB_PASS'),
+        'HOST': config.get('orientdbConf', 'DB_HOST'),
+        'PORT': config.get('orientdbConf', 'DB_PORT'),
     }
 }
 
-ORIENTDB = {
-    'NAME': config.get('orientdbConf', 'DB_NAME'),
-    'USER': config.get('orientdbConf', 'DB_USER'),
-    'PASSWORD': config.get('orientdbConf', 'DB_PASS'),
-    'HOST': config.get('orientdbConf', 'DB_HOST'),
-    'PORT': config.get('orientdbConf', 'DB_PORT'),
-}
-
-Config.from_url('plocal://'+ORIENTDB['HOST']+':'+str(ORIENTDB['PORT'])+'/'+ORIENTDB['NAME']+'',''+ORIENTDB['USER']+'', ''+ORIENTDB['PASSWORD']+'',initial_drop=False,serialization_type=OrientSerialization.Binary)
-graph = Graph(Config.from_url(''+ORIENTDB['HOST']+'/'+ORIENTDB['NAME']+'',''+ORIENTDB['USER']+'', ''+ORIENTDB['PASSWORD']+'',initial_drop=False))
+Config.from_url('plocal://'+DATABASES['orientdb']['HOST']+':'+str(DATABASES['orientdb']['PORT'])+'/'+DATABASES['orientdb']['NAME']+'',''+DATABASES['orientdb']['USER']+'', ''+DATABASES['orientdb']['PASSWORD']+'',initial_drop=False,serialization_type=OrientSerialization.Binary)
+graph = Graph(Config.from_url(''+DATABASES['orientdb']['HOST']+'/'+DATABASES['orientdb']['NAME']+'',''+DATABASES['orientdb']['USER']+'', ''+DATABASES['orientdb']['PASSWORD']+'',initial_drop=False))
 Node = declarative.declarative_node()
 Relationship = declarative.declarative_relationship()
 
