@@ -4,10 +4,12 @@ from .serializers import (UserSerializer,CompanySerializer,
 	OWorksAtSerializer,OFriendsSerializer)
 from rest_framework import serializers, validators
 from core.settings import (graph)
+from core.pyorient_client import *
 from pyorient.ogm.query import Query
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -18,8 +20,6 @@ class UserViewSet(viewsets.ModelViewSet):
 	serializer_class = UserSerializer
 
 	def destroy(self, request, *args, **kwargs):
-		print ("destroy")
-
 		'''
 		1. Check: if the ouser doesn't exist, the user isn't in a relationship
 		so, the user will be removed
@@ -39,7 +39,6 @@ class UserViewSet(viewsets.ModelViewSet):
 			return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 	def perform_destroy(self, instance):
-		print ("perform_destroy")
 		instance.delete()
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -50,8 +49,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
 	serializer_class = CompanySerializer
 
 	def destroy(self, request, *args, **kwargs):
-		print ("destroy")
-
 		'''
 		1. Check: if the ocompany doesn't exist, the company isn't in a relationship
 		so, the company will be removed
@@ -71,7 +68,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
 			return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 	def perform_destroy(self, instance):
-		print ("perform_destroy")
 		instance.delete()
 
 '''
@@ -100,6 +96,7 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 	permission_classes = [
 		permissions.AllowAny
 	]
+
 	'''
 	def list(self,request):
 		queryset = graph.ofriends.query()
@@ -111,14 +108,13 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 	'''
 	def create(self,request):
 
-		# Get postgres value id
+		# 1. Get postgres values id
 		from_postgresql_ouser = get_object_or_404(
 			User,
 			is_active=True,
 			id=request.data['from_postgresql_ouser_id']
 			)
 
-		# Get postgres value id
 		to_postgresql_ouser = get_object_or_404(
 			User,
 			is_active=True,
@@ -135,7 +131,6 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 			#print ("From: Creating new ousers record")
 
 		else:
-
 			# Get the record id
 			from_ouser = graph.ousers.query(postgresql_id=from_postgresql_ouser.id)
 			#print ("From: Id: " + str(from_postgresql_ouser.id) + " in ousers already exists")
@@ -150,7 +145,6 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 			#print ("To: Creating new ousers record")
 
 		else:
-
 			# Get the record id
 			to_ouser = graph.ousers.query(postgresql_id=to_postgresql_ouser.id)
 			#print ("To: Id: " + str(to_postgresql_ouser.id) + " in ousers already exists")
@@ -209,6 +203,13 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 		serializer_class = OFriendsSerializer
 		return Response(serializer.data)
 
+	def destroy(self, request, *args, **kwargs):
+		client = orientdbConnection()
+		
+		client.command("delete edge ofriends where @rid = '" + kwargs['pk'] + "'")
+		
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
 class OWorksAtViewSet(viewsets.ModelViewSet):
 
 	queryset = graph.oworksat.query()   # In fact, this is a pyorient Query! but DRF needs it
@@ -216,6 +217,7 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 	permission_classes = [
 		permissions.AllowAny
 	]
+
 	'''
 	def list(self,request):
 		queryset = graph.oworksat.query()
@@ -227,15 +229,13 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 	'''
 	def create(self,request):
 
-		# 1.
-		# Get postgres value id
+		# 1. Get postgres values id
 		from_postgresql_ouser = get_object_or_404(
 			User,
 			is_active=True,
 			id=request.data['from_postgresql_ouser_id']
 			)
 
-		# Get postgres value id
 		to_postgresql_ocompany = get_object_or_404(
 			Company,
 			is_active=True,
@@ -252,7 +252,6 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 			#print ("From: Creating new ousers record")
 
 		else:
-
 			# Get the record id
 			from_ouser = graph.ousers.query(postgresql_id=from_postgresql_ouser.id)
 			#print ("From: Id: " + str(from_postgresql_ouser.id) + " from ousers already exists")
@@ -267,7 +266,6 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 			#print ("To: Creating new ocompany record")
 
 		else:
-
 			# Get the record id
 			to_ocompany = graph.ocompany.query(postgresql_id=to_postgresql_ocompany.id)
 			#print ("To: Id: " + str(to_postgresql_ocompany.id) + " from ocompany already exists")
@@ -277,8 +275,6 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 				from_postgresql_ouser_id=from_postgresql_ouser.id,
 				to_postgresql_ocompany_id=to_postgresql_ocompany.id
 			)) == 0):
-
-			#import pdb;pdb.set_trace()
 
 			# Create relationship if not exist
 
@@ -327,6 +323,14 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 		serializer = OWorksAtSerializer(queryset, many=True)		
 		serializer_class = OFriendsSerializer
 		return Response(serializer.data)
+
+	def destroy(self, request, *args, **kwargs):
+		client = orientdbConnection()
+
+		client.command("delete edge oworksat where @rid = '" + kwargs['pk'] + "'")
+		
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 '''
 delete edge ofriends;
