@@ -3,6 +3,7 @@ from rest_framework import status, viewsets, permissions
 from .serializers import (UserSerializer,CompanySerializer, 
 	OWorksAtSerializer,OFriendsSerializer)
 from rest_framework import serializers, validators
+from rest_framework.pagination import PageNumberPagination
 from core.settings import (graph)
 from core.pyorient_client import *
 from pyorient.ogm.query import Query
@@ -12,12 +13,18 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	permission_classes = [
 		permissions.AllowAny
 	]
 	serializer_class = UserSerializer
+	pagination_class = StandardResultsSetPagination
 
 	def destroy(self, request, *args, **kwargs):
 		'''
@@ -47,6 +54,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 		permissions.AllowAny
 	]
 	serializer_class = CompanySerializer
+	pagination_class = StandardResultsSetPagination
 
 	def destroy(self, request, *args, **kwargs):
 		'''
@@ -92,10 +100,11 @@ class OCompanyViewSet(viewsets.ModelViewSet):
 class OFriendsViewSet(viewsets.ModelViewSet):
 
 	queryset = graph.ofriends.query()   # In fact, this is a pyorient Query! but DRF needs it
-	serializer_class = OFriendsSerializer
 	permission_classes = [
 		permissions.AllowAny
 	]
+	serializer_class = OFriendsSerializer
+	pagination_class = StandardResultsSetPagination
 
 	'''
 	def list(self,request):
@@ -213,10 +222,11 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 class OWorksAtViewSet(viewsets.ModelViewSet):
 
 	queryset = graph.oworksat.query()   # In fact, this is a pyorient Query! but DRF needs it
-	serializer_class = OWorksAtSerializer
 	permission_classes = [
 		permissions.AllowAny
 	]
+	serializer_class = OWorksAtSerializer
+	pagination_class = StandardResultsSetPagination
 
 	'''
 	def list(self,request):

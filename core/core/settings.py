@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 # https://django-rest-swagger.readthedocs.io/en/latest/#django-rest-swagger
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_DIZE': 10
 }
 
