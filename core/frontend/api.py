@@ -357,15 +357,3 @@ class OWorksAtViewSet(viewsets.ModelViewSet):
 		client.command("delete edge oworksat where @rid = '" + kwargs['pk'] + "'")
 		
 		return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-'''
-delete edge ofriends;
-delete edge oworksat;
-drop class Ofriends;
-drop class Oworksat;
-delete vertex from OUsers;
-delete vertex from OCompany;
-drop class OUsers;
-drop class OCompany;
-'''

@@ -72,6 +72,27 @@ There are 4 main models :
 
 Also if a relationship is created, either an OUser or OCompany instance vertex are created in OrientDB with only the ID's from postgreSQL, to allow the creation of the relationship (edges).
 
+You can play with the Orientdb models and delete them easily by console. In your terminal, access to the orientdb path:
+
+	sudo /opt/orientdb/bin/console.sh
+
+Switch to your database:
+
+	connect remote:localhost/databases/<your_database_name> root orientdb
+
+Finally you can delete your orientdb objects.
+
+	delete edge ofriends;
+	delete edge oworksat;
+	drop class Ofriends;
+	drop class Oworksat;
+	delete vertex from OUsers;
+	delete vertex from OCompany;
+	drop class OUsers;
+	drop class OCompany;
+
+And when you run django server, it will generate all the models again, similar to "python manage.py migrate" command.
+
 ## Swagger Documentation
 
 [Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool for API documentation. "Swagger UI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption."
