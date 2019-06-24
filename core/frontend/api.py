@@ -117,6 +117,17 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 	'''
 	def create(self,request):
 
+		aux_id = ''
+		queryset = graph.ofriends.query()	# In fact, this is a pyorient Query! but DRF needs it
+		
+		# NOTE: If exist a better way to get the last record, maybe using order_by, ¡PLEASE tell me!
+		'''
+		for i in queryset:
+			aux_id = i.aux_id
+		aux_id+=1
+		'''
+		#import pdb;pdb.set_trace()	
+
 		# 1. Get postgres values id
 		from_postgresql_ouser = get_object_or_404(
 			User,
@@ -171,6 +182,7 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 				graph.ofriends.create(
 					from_ouser.first(),
 					to_ouser.first(),
+					#aux_id=aux_id,
 					from_postgresql_ouser_id=from_postgresql_ouser.id,
 					to_postgresql_ouser_id=to_postgresql_ouser.id
 					)
@@ -180,6 +192,7 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 				graph.ofriends.create(
 					from_ouser,
 					to_ouser.first(),
+					#aux_id=aux_id,
 					from_postgresql_ouser_id=from_postgresql_ouser.id,
 					to_postgresql_ouser_id=to_postgresql_ouser.id
 					)
@@ -189,6 +202,7 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 				graph.ofriends.create(
 					from_ouser.first(),
 					to_ouser,
+					#aux_id=aux_id,
 					from_postgresql_ouser_id=from_postgresql_ouser.id,
 					to_postgresql_ouser_id=to_postgresql_ouser.id
 					)
@@ -198,6 +212,7 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 				graph.ofriends.create(
 					from_ouser,
 					to_ouser,
+					#aux_id=aux_id,
 					from_postgresql_ouser_id=from_postgresql_ouser.id,
 					to_postgresql_ouser_id=to_postgresql_ouser.id
 					)
@@ -214,8 +229,10 @@ class OFriendsViewSet(viewsets.ModelViewSet):
 
 	def destroy(self, request, *args, **kwargs):
 		client = orientdbConnection()
-		
+
 		client.command("delete edge ofriends where @rid = '" + kwargs['pk'] + "'")
+
+		#client.command("delete edge ofriends where aux_id = '" + kwargs['pk'] + "'")
 		
 		return Response(status=status.HTTP_204_NO_CONTENT)
 

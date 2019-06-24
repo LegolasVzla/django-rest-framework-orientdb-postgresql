@@ -30,6 +30,7 @@ class OCompanySerializer(serializers.Serializer):
 '''
 
 class OFriendsSerializer(serializers.Serializer):
+	#aux_id = serializers.IntegerField()
 	from_postgresql_ouser_id = serializers.IntegerField()
 	to_postgresql_ouser_id = serializers.IntegerField()
 
@@ -37,12 +38,14 @@ class OFriendsSerializer(serializers.Serializer):
 		return OFriends.objects.create(**data)
 
 	def update(self, instance, data):
+		#instance.aux_id = data.get("aux_id")
 		instance.from_postgresql_ouser_id = data.get("from_postgresql_ouser_id")
 		instance.to_postgresql_ouser_id = data.get("to_postgresql_ouser_id")
 		instance.save()
 		return instance
 
 class OWorksAtSerializer(serializers.Serializer):
+	#aux_id = serializers.IntegerField()
 	from_postgresql_ouser_id = serializers.IntegerField()
 	to_postgresql_ocompany_id = serializers.IntegerField()
 
@@ -50,6 +53,7 @@ class OWorksAtSerializer(serializers.Serializer):
 		return OWorksAt.objects.create(**data)
 	
 	def update(self, instance, data):
+		#instance.aux_id = data.get("aux_id")
 		instance.from_postgresql_ouser_id = data.get("from_postgresql_ouser_id")
 		instance.to_postgresql_ocompany_id = data.get("to_postgresql_ocompany_id")
 		instance.save()

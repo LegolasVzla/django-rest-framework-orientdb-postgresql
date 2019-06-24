@@ -35,11 +35,13 @@ class OCompany(Node):
 	
 class OFriends(Relationship):
 	label = 'ofriends'
+	#aux_id=Integer(nullable=False,unique=True)
 	from_postgresql_ouser_id=Integer(nullable=False,unique=True)
 	to_postgresql_ouser_id=Integer(nullable=False,unique=True)
 
 class OWorksAt(Relationship):
 	label = 'oworksat'
+	#aux_id=Integer(nullable=False,unique=True)
 	from_postgresql_ouser_id=Integer(nullable=False,unique=True)
 	to_postgresql_ocompany_id=Integer(nullable=False,unique=True)
 
