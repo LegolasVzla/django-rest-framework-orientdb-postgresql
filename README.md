@@ -70,7 +70,7 @@ There are 4 main models :
 - OFriends: relationship between two users. Are stored in OrientDB
 - OWorksat: relationship between a user and a company. Are stored in OrientDB
 
-Also if a relationship is created, either an OUser or OCompany instance vertex are created in OrientDB with only the ID's from postgreSQL, to allow the creation of the relationship (edges).
+Also if a relationship is created, either an OUser or OCompany instance vertex are created in OrientDB with only the ID's from postgreSQL, to allow the creation of the relationship (edges). This is a possible way to "Join" postgreSQL (e.g. structure) and orientdb (graph querys) strengths.
 
 You can play with the Orientdb models and delete them easily by console. In your terminal, access to the orientdb path:
 
@@ -80,7 +80,7 @@ Switch to your database:
 
 	connect remote:localhost/databases/<your_database_name> root orientdb
 
-Finally you can delete your orientdb objects.
+You can do changes in your orientdb data and finally, you can delete your orientdb objects:
 
 	delete edge ofriends;
 	delete edge oworksat;
@@ -150,15 +150,30 @@ Then make a GET request to get Company ID.
 
 Both objects will be generated in postgreSQL database. Then make a POST request in:
 
-- http://127.0.0.1:8000/api/ofriends (OFriend relationship) with the two Users ID generated before
+- http://127.0.0.1:8000/api/ofriends (OFriends relationship) with the two Users ID generated before
 - http://127.0.0.1:8000/api/oworksat (OWorksat relationship) with the User and Company ID generated before
 
 Both objects will be generated in orientdb database. Finally you could make a GET request in:
 
-- http://127.0.0.1:8000/api/ofriends (OFriend relationship)
-- http://127.0.0.1:8000/api/oworksat (OFriend relationship)
+- http://127.0.0.1:8000/api/ofriends (OFriends relationship)
+- http://127.0.0.1:8000/api/oworksat (OFriends relationship)
 
-And you could see your recently relationship generated. Also you can send a GET request (OFriend or OFriend) in swagger UI to see the instance created.
+And you could see your recently relationship generated. Also you can send a GET request (OFriends or OFriend) in swagger UI to see the instance created.
+
+If you want to delete and edge (OFriends,OWorksat), you can do it by accessing to Orientdb Studio (or by orientdb console), i.e:
+
+	http://localhost:2480/studio/index.html#/
+
+
+Execute your query, similar as below:
+
+	select * from `<your_edge>`
+
+And take note of your @rid (see Troubleshooting section). Finally, send a delete request in swagger UI, passing the @rid:
+
+	http://127.0.0.1:8000/swagger/
+
+You could find more pyorient OGM documentation in the [official repository](https://github.com/orientechnologies/pyorient/blob/master/OGM.md) or in the [home page](https://orientdb.com/docs/2.2.x/PyOrient-OGM.html).
 
 ## Troubleshooting
 
