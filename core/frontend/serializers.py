@@ -15,6 +15,7 @@ class CompanySerializer(serializers.ModelSerializer):
 		fields = ('id','name','email','is_active','is_deleted')
 
 '''
+It's not important to display this Objects
 class OUsersSerializer(serializers.Serializer):
 	postgresql_id = serializers.IntegerField()
 	#created_date = serializers.DateField()

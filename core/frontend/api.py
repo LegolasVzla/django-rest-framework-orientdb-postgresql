@@ -79,6 +79,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 		instance.delete()
 
 '''
+It's not important to display this Objects
 class OUsersViewSet(viewsets.ViewSet):
 	def list(self,request):
 		oquery = graph.ousers.query()

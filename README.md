@@ -176,6 +176,20 @@ if self.protocol > SUPPORTED_PROTOCOL:
             " is not supported yet by this client.", []) 
 ```
 
+2. About delete/destroy method using pyorient OGM:
+
+I created an [issue](https://github.com/mogui/pyorient/issues/284) with the intention to search for a better way to delete and edge instead of using simple raw query, so in the api.py, i had to use a pyorient client to do that:
+```
+def destroy(self, request, *args, **kwargs):
+	client = orientdbConnection()
+
+	client.command("delete edge <my_edge> where @rid = '" + kwargs['pk'] + "'")
+	
+	return Response(status=status.HTTP_204_NO_CONTENT)
+```
+
+Obviously this is not what it should be, but it's a solution. Even with this, I couldn't find a susccessfully way to pass in the DRF querystring, an orientdb @rid to delete an edge, I only achieved this in the swagger UI delete request (if you find how to do that, please tell me)
+
 
 ## Contributions
 ------------------------
