@@ -5,6 +5,7 @@ from rest_framework import routers
 from .api import (UserViewSet,CompanyViewSet,OFriendsViewSet,
     OWorksAtViewSet)
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.register('api/user', UserViewSet, 'user')
@@ -17,7 +18,8 @@ router.register('api/oworksat', OWorksAtViewSet, 'oworksat')
 schema_view = get_swagger_view(title='Swagger DRF-Orientdb-PostgreSQL REST API Documentation')
 
 urlpatterns = [
-    url(r'^swagger/$', schema_view)
+    url(r'^swagger/$', schema_view),
+    url(r'^api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]
 
 urlpatterns += router.urls

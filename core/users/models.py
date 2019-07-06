@@ -6,25 +6,25 @@ from django.utils import timezone
 
 from .managers import CustomUserManager
 
-# Create your models here.
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-	email = models.EmailField(_('email address'), unique=True)
-	is_staff = models.BooleanField(default=False)
-	is_active = models.BooleanField(default=True)
-	is_deleted = models.BooleanField(default=False)
-	date_joined = models.DateTimeField(default=timezone.now)
-	updated_date=models.DateTimeField(auto_now=True)
-	GENDER_CHOICES = (
-		('M', 'Male'),
-		('F', 'Female'),
-		('O', 'Others'),
-	)
-	gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    email = models.EmailField(_('email address'), unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
+    updated_date=models.DateTimeField(auto_now=True)
+    GENDER_CHOICES = (
+    	('M', 'Male'),
+    	('F', 'Female'),
+    	('O', 'Others'),
+    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES,default='O')
 
-	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
-	objects = CustomUserManager()
+    objects = CustomUserManager()
 
-	def __str__(self):
-		return self.email
+    def __str__(self):
+        return self.email

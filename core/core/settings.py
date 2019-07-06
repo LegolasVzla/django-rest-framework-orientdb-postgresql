@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'users',
     'frontend',
     'rest_framework',
-    'rest_framework_swagger'    
+    'rest_framework_swagger',
+    'rest_framework.authtoken',
 ]
 
 # Swagger: For the full documentation, see
@@ -57,7 +58,10 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_DIZE': 10
+    'PAGE_DIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ]
 }
 
 MIDDLEWARE = [

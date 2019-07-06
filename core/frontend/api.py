@@ -1,5 +1,6 @@
 from .models import (User,Company,OFriends,OWorksAt)
 from rest_framework import status, viewsets, permissions
+from rest_framework.permissions import IsAuthenticated
 from .serializers import (UserSerializer,CompanySerializer, 
 	OWorksAtSerializer,OFriendsSerializer)
 from rest_framework import serializers, validators
@@ -20,9 +21,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
-	permission_classes = [
-		permissions.AllowAny
-	]
+	permission_classes = (IsAuthenticated,)
 	serializer_class = UserSerializer
 	pagination_class = StandardResultsSetPagination
 
