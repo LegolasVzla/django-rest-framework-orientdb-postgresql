@@ -114,29 +114,51 @@ Endpoint |HTTP Method | CRUD Method | Result
 `api/<instance>/:id` | PUT | UPDATE | Update a <instance> (at the moment, only for User and Company instances) record
 `api/<instance>/:id` | DELETE | DELETE | Delete a <instance> (for relationships, only works in swagger UI DELETE method) record
 
-## Execution
+## Testing the API
 
-1. Do you want to generate "friends" or "works at" relationship?. According your choice:
+Exists many ways to test the API. 
 
-First, you need to generate an User or a Company. If you want to generate an User, you have three possible ways:
+By your terminal:
+- Using [curl](https://curl.haxx.se/)
+- Using [httpie](https://github.com/jakubroztocil/httpie#installation), which is a user friendly http client that's written in Python, and it's in the requirements.txt file.
 
-a) By django createsuperuser command:
+By the DRF UI or Swagger UI:
+- In the basic root view for DefaultRouter of DRF: http://127.0.0.1:8000/
+- In the swagger UI: http://127.0.0.1:8000/swagger/
+
+Also you can use postman.
+
+## Getting Token Authentication for your Superuser
+
+With the Django's development server up, only authenticated users can use the User API service, for that reason if you try in your terminal this (even without any data):
+
+	http  http://127.0.0.1:8000/api/user/1/
+
+You get:
+```
+{
+    "detail": "Authentication credentials were not provided."
+}
+```
+So, you need to generate your DRF token authentication. First, create your superuser by django createsuperuser command:
 
 	python manage.py createsuperuser
 
-And fill up an **email** and a **password** to generate a super user in postgreSQL.
+And fill up an **email** and a **password** to generate a superuser in postgreSQL. You could generate another user if you want to make "OFriends" relationship.
 
-b) By sending a POST request in the User API (or two users if you want to make "OFriends" relationship):
+Then, generate your token:
+	
+	python manage.py drf_create_token <your_superuser_email>
 
-	http://127.0.0.1:8000/api/user 
+Copy your token and now you could make the request:
 
-c) Or by sending a POST User request in the swagger UI:
+	http http://127.0.0.1:8000/api/user/1/ 'Authorization: Token <your_token>'
 
-	http://127.0.0.1:8000/swagger/
+Also, in the DRF User API, you could access in the form:
 
-Then make a GET request to get the User ID.
+	http://127.0.0.1:8000/api/user/1/?auth_token=<your_token>
 
-Second, you can generate a company:
+## Generating Companies
 
 a) By sending a POST request in the Company API:
 
@@ -148,7 +170,11 @@ b) Or by sending a POST Company request in the swagger UI:
 	
 Then make a GET request to get Company ID.
 
-Both objects will be generated in postgreSQL database. Then make a POST request in:
+Your Company will be generated in PostgreSQL database. 
+
+## Generating Orientdb relationships
+
+1. Do you want to generate "friends" or "works at" relationship?. According your choice, make a POST request in:
 
 - http://127.0.0.1:8000/api/ofriends (OFriends relationship) with the two Users ID generated before
 - http://127.0.0.1:8000/api/oworksat (OWorksat relationship) with the User and Company ID generated before
