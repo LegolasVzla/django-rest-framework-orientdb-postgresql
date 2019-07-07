@@ -20,6 +20,7 @@ schema_view = get_swagger_view(title='Swagger DRF-Orientdb-PostgreSQL REST API D
 urlpatterns = [
     url(r'^swagger/$', schema_view),
     url(r'^api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    url(r'^rest-auth/', include('rest_auth.urls'))
 ]
 
 urlpatterns += router.urls

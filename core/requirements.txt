@@ -3,6 +3,7 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 Django==2.2.3
+django-rest-auth==0.9.5
 django-rest-swagger==2.2.0
 djangorestframework==3.9.3
 httpie==1.0.2
@@ -20,6 +21,7 @@ pyorient-native==1.2.3
 pytz==2019.1
 requests==2.22.0
 simplejson==3.16.0
+six==1.12.0
 sqlparse==0.3.0
 uritemplate==3.0.0
 urllib3==1.25.3
