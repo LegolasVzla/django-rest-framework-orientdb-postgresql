@@ -146,11 +146,19 @@ So, you need to generate your DRF token authentication. First, create your super
 
 And fill up an **email** and a **password** to generate a superuser in postgreSQL. You could generate another user if you want to make "OFriends" relationship.
 
-Then, generate your token:
-	
+Then, generate you need to generate your token. You have 2 ways:
+
+1. By rest_auth UI. Go to:
+
+	http://127.0.0.1:8000/rest-auth/login/
+
+And fill up with your **email** (username and email) and **password** superuser, send the POST request and that's it, now you have your token!
+
+2. By rest_framework.authtoken. In your terminal write:
+
 	python manage.py drf_create_token <your_superuser_email>
 
-Copy your token and now you could make the request:
+And you get your token. Now you can access to the User Api. Copy your token and make the request:
 
 	http http://127.0.0.1:8000/api/user/1/ 'Authorization: Token <your_token>'
 
@@ -174,7 +182,7 @@ Your Company will be generated in PostgreSQL database.
 
 ## Generating Orientdb relationships
 
-1. Do you want to generate "friends" or "works at" relationship?. According your choice, make a POST request in:
+Do you want to generate "friends" or "works at" relationship?. According your choice, make a POST request in:
 
 - http://127.0.0.1:8000/api/ofriends (OFriends relationship) with the two Users ID generated before
 - http://127.0.0.1:8000/api/oworksat (OWorksat relationship) with the User and Company ID generated before
